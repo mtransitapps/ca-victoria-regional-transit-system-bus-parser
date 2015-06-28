@@ -18,6 +18,7 @@ import org.mtransit.parser.mt.data.MTrip;
 
 // http://bctransit.com/*/footer/open-data
 // http://bctransit.com/servlet/bctransit/data/GTFS.zip
+// http://bct2.baremetal.com:8080/GoogleTransit/BCTransit/google_transit.zip
 public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
@@ -41,8 +42,15 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		System.out.printf("Generating Victoria Regional Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
+	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH = "al";
+	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 = "am";
+
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
+		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gCalendar.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
+				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gCalendar.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -51,6 +59,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
+		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gCalendarDates.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
+				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gCalendarDates.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -69,6 +81,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
+		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gTrip.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
+				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gTrip.service_id.startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
+			return true;
+		}
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
@@ -115,8 +131,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String OAK_BAY = "Oak Bay";
 	private static final String BEACON_HILL = "Beacon Hl";
 	private static final String TILLICUM_MALL = "Tillicum Mall";
+	private static final String EXCH = "Exch";
 	private static final String ROYAL_OAK = "Royal Oak";
-	private static final String ROYAL_OAK_EX = ROYAL_OAK + " Ex";
+	private static final String ROYAL_OAK_EXCH = ROYAL_OAK + " " + EXCH;
 	private static final String CAMOSUN = "Camosun";
 	private static final String ROYAL_OAK_CAMOSUN_ROYAL_ROADS = ROYAL_OAK + " / " + CAMOSUN + " / Royal Roads";
 	private static final String JAMES_BAY = "James Bay";
@@ -137,7 +154,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String LANGFORD_DOWNTOWN = LANGFORD + " / " + DOWNTOWN;
 	private static final String THETIS_HTS = "Thetis Hts";
 	private static final String MILLSTREAM_BEAR_MTN = "Millstream / Bear Mtn";
-	private static final String COLWOOD_EX = "Colwood Ex";
+	private static final String COLWOOD_EXCH = "Colwood " + EXCH;
+	private static final String HAPPY_VLY = "Happy Vly";
+	private static final String HAPPY_VLY_COLWOOD_EXCH = HAPPY_VLY + " / " + COLWOOD_EXCH;
+	private static final String UNIVERSITY_HTS = "University Hts";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -175,6 +195,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mRoute.id == 10l) {
 			if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(SONGHEES, gTrip.direction_id);
+				return;
+			}
+		} else if (mRoute.id == 12l) {
+			if (gTrip.direction_id == 1) {
+				mTrip.setHeadsignString(UNIVERSITY_HTS, gTrip.direction_id);
 				return;
 			}
 		} else if (mRoute.id == 14l) {
@@ -231,7 +256,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mRoute.id == 30l) {
 			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(ROYAL_OAK_EX, gTrip.direction_id);
+				mTrip.setHeadsignString(ROYAL_OAK_EXCH, gTrip.direction_id);
 				return;
 			} else if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(JAMES_BAY, gTrip.direction_id);
@@ -239,7 +264,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mRoute.id == 31l) {
 			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(ROYAL_OAK_EX, gTrip.direction_id);
+				mTrip.setHeadsignString(ROYAL_OAK_EXCH, gTrip.direction_id);
 				return;
 			} else if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(JAMES_BAY, gTrip.direction_id);
@@ -247,7 +272,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mRoute.id == 32l) {
 			if (gTrip.direction_id == 1) {
-				mTrip.setHeadsignString(ROYAL_OAK_EX, gTrip.direction_id);
+				mTrip.setHeadsignString(ROYAL_OAK_EXCH, gTrip.direction_id);
 				return;
 			}
 		} else if (mRoute.id == 39l) {
@@ -259,16 +284,24 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return;
 			}
 		} else if (mRoute.id == 50l) {
-			if (gTrip.direction_id == 1) {
+			if (gTrip.direction_id == 0) {
+				mTrip.setHeadsignString(DOWNTOWN, gTrip.direction_id);
+				return;
+			} else if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(LANGFORD, gTrip.direction_id);
 				return;
 			}
 		} else if (mRoute.id == 52l) {
 			if (gTrip.direction_id == 0) {
-				mTrip.setHeadsignString(COLWOOD_EX, gTrip.direction_id);
+				mTrip.setHeadsignString(COLWOOD_EXCH, gTrip.direction_id);
 				return;
 			} else if (gTrip.direction_id == 1) {
 				mTrip.setHeadsignString(MILLSTREAM_BEAR_MTN, gTrip.direction_id);
+				return;
+			}
+		} else if (mRoute.id == 55l) {
+			if (gTrip.direction_id == 1) {
+				mTrip.setHeadsignString(HAPPY_VLY_COLWOOD_EXCH, gTrip.direction_id);
 				return;
 			}
 		} else if (mRoute.id == 57l) {
@@ -314,8 +347,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		mTrip.setHeadsignString(cleanTripHeadsign(gTrip.trip_headsign), gTrip.direction_id);
 	}
 
-	private static final Pattern EXCHANGE = Pattern.compile("(exchange)", Pattern.CASE_INSENSITIVE);
-	private static final String EXCHANGE_REPLACEMENT = "Ex";
+	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
 
 	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
 
@@ -333,6 +366,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		tripHeadsign = ENDS_WITH_EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = STARTS_WITH_NUMBER.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = MSpec.cleanStreetTypes(tripHeadsign);
+		tripHeadsign = MSpec.cleanNumbers(tripHeadsign);
 		return MSpec.cleanLabel(tripHeadsign);
 	}
 
