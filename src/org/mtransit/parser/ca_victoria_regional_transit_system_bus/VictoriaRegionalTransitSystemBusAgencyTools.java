@@ -35,15 +35,16 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating Victoria Regional Transit System bus data...\n");
+		System.out.printf("\nGenerating Victoria Regional Transit System bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this);
 		super.start(args);
-		System.out.printf("\nGenerating Victoria Regional Transit System bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		System.out.printf("\nGenerating Victoria Regional Transit System bus data... DONE in %s.\n",
+				Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
-	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH = "al";
-	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 = "am";
+	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH = null;
+	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 = null;
 
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
