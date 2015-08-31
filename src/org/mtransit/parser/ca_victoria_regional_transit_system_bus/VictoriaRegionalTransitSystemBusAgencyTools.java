@@ -136,7 +136,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String ROYAL_OAK = "Royal Oak";
 	private static final String ROYAL_OAK_EXCH = ROYAL_OAK + " " + EXCH;
 	private static final String CAMOSUN = "Camosun";
-	private static final String ROYAL_OAK_CAMOSUN_ROYAL_ROADS = ROYAL_OAK + " / " + CAMOSUN + " / Royal Roads";
+	private static final String ROYAL_ROADS = "Royal Rds";
+	private static final String ROYAL_OAK_CAMOSUN_ROYAL_ROADS = ROYAL_OAK + " / " + CAMOSUN + " / " + ROYAL_ROADS;
 	private static final String JAMES_BAY = "James Bay";
 	private static final String MAJESTIC = "Majestic";
 	private static final String DOCKYARD = "Dockyard";
@@ -198,6 +199,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(SONGHEES, gTrip.getDirectionId());
 				return;
 			}
+		} else if (mRoute.id == 11l) {
+			if (gTrip.getDirectionId() == 0) {
+				mTrip.setHeadsignString(U_VIC, gTrip.getDirectionId());
+				return;
+			}
 		} else if (mRoute.id == 12l) {
 			if (gTrip.getDirectionId() == 1) {
 				mTrip.setHeadsignString(UNIVERSITY_HTS, gTrip.getDirectionId());
@@ -206,6 +212,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mRoute.id == 14l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(U_VIC, gTrip.getDirectionId());
+				return;
+			} else if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(VIC_GENERAL, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.id == 21l) {
@@ -376,6 +385,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final Pattern AT = Pattern.compile("( at )", Pattern.CASE_INSENSITIVE);
 	private static final String AT_REPLACEMENT = " / ";
 
+	private static final Pattern AND = Pattern.compile("( and )", Pattern.CASE_INSENSITIVE);
+	private static final String AND_REPLACEMENT = " & ";
+
 	private static final Pattern UVIC = Pattern.compile("((^|\\W){1}(uvic)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String UVIC_REPLACEMENT = "$2" + U_VIC + "$4";
 
@@ -383,6 +395,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	public String cleanStopName(String gStopName) {
 		gStopName = STARTS_WITH_BOUND.matcher(gStopName).replaceAll(StringUtils.EMPTY);
 		gStopName = AT.matcher(gStopName).replaceAll(AT_REPLACEMENT);
+		gStopName = AND.matcher(gStopName).replaceAll(AND_REPLACEMENT);
 		gStopName = EXCHANGE.matcher(gStopName).replaceAll(EXCHANGE_REPLACEMENT);
 		gStopName = UVIC.matcher(gStopName).replaceAll(UVIC_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
