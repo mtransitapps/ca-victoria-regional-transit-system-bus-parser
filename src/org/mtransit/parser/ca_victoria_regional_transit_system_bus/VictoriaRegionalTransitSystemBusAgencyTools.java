@@ -128,6 +128,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		return super.getRouteColor(gRoute);
 	}
 
+	private static final String SLASH = " / ";
 	private static final String DOWNTOWN = "Downtown";
 	private static final String OAK_BAY = "Oak Bay";
 	private static final String BEACON_HILL = "Beacon Hl";
@@ -137,7 +138,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String ROYAL_OAK_EXCH = ROYAL_OAK + " " + EXCH;
 	private static final String CAMOSUN = "Camosun";
 	private static final String ROYAL_ROADS = "Royal Rds";
-	private static final String ROYAL_OAK_CAMOSUN_ROYAL_ROADS = ROYAL_OAK + " / " + CAMOSUN + " / " + ROYAL_ROADS;
+	private static final String ROYAL_OAK_CAMOSUN_ROYAL_ROADS = ROYAL_OAK + SLASH + CAMOSUN + SLASH + ROYAL_ROADS;
 	private static final String JAMES_BAY = "James Bay";
 	private static final String MAJESTIC = "Majestic";
 	private static final String DOCKYARD = "Dockyard";
@@ -148,18 +149,19 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String U_VIC = "UVic";
 	private static final String SONGHEES = "Songhees";
 	private static final String BRENTWOOD = "Brentwood";
-	private static final String ROYAL_OAK_DOWNTOWN = ROYAL_OAK + " / " + DOWNTOWN;
+	private static final String ROYAL_OAK_DOWNTOWN = ROYAL_OAK + SLASH + DOWNTOWN;
 	private static final String SAANICHTON = "Saanichton";
 	private static final String SWARTZ_BAY = "Swartz Bay";
 	private static final String E_SOOKE_SOOKE = "E Sooke / Sooke";
 	private static final String LANGFORD = "Langford";
-	private static final String LANGFORD_DOWNTOWN = LANGFORD + " / " + DOWNTOWN;
+	private static final String LANGFORD_DOWNTOWN = LANGFORD + SLASH + DOWNTOWN;
 	private static final String THETIS_HTS = "Thetis Hts";
 	private static final String MILLSTREAM_BEAR_MTN = "Millstream / Bear Mtn";
 	private static final String COLWOOD_EXCH = "Colwood " + EXCH;
 	private static final String HAPPY_VLY = "Happy Vly";
-	private static final String HAPPY_VLY_COLWOOD_EXCH = HAPPY_VLY + " / " + COLWOOD_EXCH;
+	private static final String HAPPY_VLY_COLWOOD_EXCH = HAPPY_VLY + SLASH + COLWOOD_EXCH;
 	private static final String UNIVERSITY_HTS = "University Hts";
+	private static final String GOLDSTREAM_MDWS = "Goldstream Mdws";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -317,6 +319,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mRoute.getId() == 57l) {
 			if (gTrip.getDirectionId() == 0) {
 				mTrip.setHeadsignString(THETIS_HTS, gTrip.getDirectionId());
+				return;
+			}
+		} else if (mRoute.getId() == 58l) {
+			if (gTrip.getDirectionId() == 1) {
+				mTrip.setHeadsignString(GOLDSTREAM_MDWS, gTrip.getDirectionId());
 				return;
 			}
 		} else if (mRoute.getId() == 61l) {
