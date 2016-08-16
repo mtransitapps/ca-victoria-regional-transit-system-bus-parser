@@ -137,6 +137,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String CAMOSUN = "Camosun";
 	private static final String ROYAL_ROADS = "Royal Rds";
 	private static final String JAMES_BAY = "James Bay";
+	private static final String MAJESTIC = "Majestic";
 	private static final String DOCKYARD = "Dockyard";
 	private static final String HILLSIDE_MALL = "Hillside Mall";
 	private static final String U_VIC = "UVic";
@@ -175,9 +176,20 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == 6l) {
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(ROYAL_OAK_EXCH, mTrip.getHeadsignId());
+				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			}
 		} else if (mTrip.getRouteId() == 7l) {
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(OAK_BAY, mTrip.getHeadsignId());
+				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 8l) {
@@ -235,7 +247,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 28l) {
-			if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(MAJESTIC, mTrip.getHeadsignId());
+				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
@@ -293,6 +308,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
+				mTrip.setHeadsignString("Sooke", mTrip.getHeadsignId());
+				return true;
 			}
 		} else if (mTrip.getRouteId() == 64l) {
 			if (mTrip.getHeadsignId() == 0) {
@@ -334,7 +352,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
 
-	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+[\\S]*)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern ENDS_WITH_EXPRESS = Pattern.compile("( express.*$)", Pattern.CASE_INSENSITIVE);
 
