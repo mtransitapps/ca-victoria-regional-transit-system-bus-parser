@@ -218,6 +218,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString("Vic General", mTrip.getHeadsignId());
 				return true;
 			}
+		} else if (mTrip.getRouteId() == 15l) {
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
+				return true;
 		} else if (mTrip.getRouteId() == 21l) {
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(CAMOSUN, mTrip.getHeadsignId());
@@ -292,7 +296,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 50l) {
-			if (mTrip.getHeadsignId() == 1) {
+			if (mTrip.getHeadsignId() == 0) {
+				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
+				return true;
+			} else if (mTrip.getHeadsignId() == 1) {
 				mTrip.setHeadsignString(LANGFORD, mTrip.getHeadsignId());
 				return true;
 			}
