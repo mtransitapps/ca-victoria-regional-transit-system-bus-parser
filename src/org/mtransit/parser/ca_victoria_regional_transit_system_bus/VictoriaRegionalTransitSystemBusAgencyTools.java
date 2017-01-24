@@ -222,6 +222,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
 				return true;
+			}
 		} else if (mTrip.getRouteId() == 21l) {
 			if (mTrip.getHeadsignId() == 0) {
 				mTrip.setHeadsignString(CAMOSUN, mTrip.getHeadsignId());
