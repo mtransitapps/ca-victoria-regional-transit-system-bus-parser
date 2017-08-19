@@ -483,6 +483,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 					DOWNTOWN, //
 					LANGFORD + "/" + DOWNTOWN, //
 					LANGFORD, //
+					LANGFORD_EXCH, //
 					"X " + DOWNTOWN //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
@@ -521,6 +522,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 75l) {
 			if (Arrays.asList( //
 					OLDFIELD, //
+					"Keating" + _ONLY, //
 					SAANICHTON_EXCH //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(SAANICHTON_EXCH, mTrip.getHeadsignId());
@@ -535,6 +537,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 81l) {
 			if (Arrays.asList( //
 					BRENTWOOD, //
+					"Brentwood Butchart Grdns", //
+					"Keating", //
 					OLDFIELD, //
 					SAANICHTON_EXCH, //
 					VERDIER + _ONLY //
@@ -557,6 +561,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			}
 		}
+		if (isGoodEnoughAccepted()) {
+			return super.mergeHeadsign(mTrip, mTripToMerge);
+		}
 		System.out.printf("\nUnexpected trips to merges %s & %s!s\n", mTrip, mTripToMerge);
 		System.exit(-1);
 		return false;
@@ -564,6 +571,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
 	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
+
+	private static final Pattern HEIGHTS = Pattern.compile("((^|\\W){1}(Hghts)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final String HEIGHTS_REPLACEMENT = "$2Hts$4";
 
 	private static final Pattern STARTS_WITH_NUMBER = Pattern.compile("(^[\\d]+)", Pattern.CASE_INSENSITIVE);
 
@@ -576,6 +586,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	@Override
 	public String cleanTripHeadsign(String tripHeadsign) {
 		tripHeadsign = EXCHANGE.matcher(tripHeadsign).replaceAll(EXCHANGE_REPLACEMENT);
+		tripHeadsign = HEIGHTS.matcher(tripHeadsign).replaceAll(HEIGHTS_REPLACEMENT);
 		tripHeadsign = ENDS_WITH_VIA.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = STARTS_WITH_TO.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
 		tripHeadsign = ENDS_WITH_EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
