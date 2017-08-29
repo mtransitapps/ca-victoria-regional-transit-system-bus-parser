@@ -257,6 +257,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mTrip.getRouteId() == 8l) {
 			if (Arrays.asList( //
+					"Douglas - Mayfair Mall", //
 					OAK_BAY, //
 					OAK_BAY + AND + RICHMOND //
 			).containsAll(headsignsValues)) {
@@ -287,10 +288,16 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mTrip.getRouteId() == 14l) {
 			if (Arrays.asList( //
-					DOWNTOWN, //
+					DOWNTOWN, // SAME
 					U_VIC //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
+				return true;
+			} else if (Arrays.asList( //
+					DOWNTOWN, // SAME
+					VIC_GENERAL //
+					).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(VIC_GENERAL, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 15l) {
@@ -339,6 +346,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 25l) {
 			if (Arrays.asList( //
 					ADMIRALS_WALK, //
+					"Shoreline Sch", //
 					COLWOOD_EXCH //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(COLWOOD_EXCH, mTrip.getHeadsignId());
@@ -432,6 +440,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			} else if (Arrays.asList( //
 					CAMOSUN + "-" + INTERURBAN, //
 					COLWOOD_EXCH, //
+					"Westhills Exch", //
 					ROYAL_OAK_EXCH, //
 					ROYAL_ROADS //
 					).containsAll(headsignsValues)) {
