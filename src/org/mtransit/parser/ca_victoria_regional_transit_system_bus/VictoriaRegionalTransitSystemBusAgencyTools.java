@@ -181,6 +181,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String DOUGLAS = "Douglas";
 	private static final String MENZIES = "Menzies";
 	private static final String WILLOWS = "Willows";
+	private static final String WESTHILLS_EXCH = "Westhills Exch";
 
 	@Override
 	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
@@ -438,13 +439,12 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
-					CAMOSUN + "-" + INTERURBAN, //
-					COLWOOD_EXCH, //
-					"Westhills Exch", //
+					INTERURBAN, //
+					WESTHILLS_EXCH, //
 					ROYAL_OAK_EXCH, //
 					ROYAL_ROADS //
 					).containsAll(headsignsValues)) {
-				mTrip.setHeadsignString(ROYAL_ROADS, mTrip.getHeadsignId());
+				mTrip.setHeadsignString(WESTHILLS_EXCH, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (mTrip.getRouteId() == 50l) {
