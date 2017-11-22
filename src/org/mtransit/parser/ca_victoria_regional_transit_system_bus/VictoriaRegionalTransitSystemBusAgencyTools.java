@@ -174,6 +174,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String BEAR_MOUTAIN = "Bear Mtn";
 	private static final String MC_DONALD_PARK = "McDonald Pk";
 	private static final String MC_TAVISH = "McTavish";
+	private static final String MC_TAVISH_EXCH = MC_TAVISH + " " + EXCH;
 	private static final String VIC_GENERAL = "Vic General";
 	private static final String UPTOWN = "Uptown";
 	private static final String RICHMOND = "Richmond";
@@ -523,6 +524,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			} else if (Arrays.asList( //
 					DOWNTOWN, //
+					MC_TAVISH_EXCH, //
 					MC_TAVISH + _ONLY //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
@@ -569,9 +571,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(ROYAL_OAK_EXCH, mTrip.getHeadsignId());
 				return true;
 			}
-		}
-		if (isGoodEnoughAccepted()) {
-			return super.mergeHeadsign(mTrip, mTripToMerge);
 		}
 		System.out.printf("\nUnexpected trips to merges %s & %s!s\n", mTrip, mTripToMerge);
 		System.exit(-1);
