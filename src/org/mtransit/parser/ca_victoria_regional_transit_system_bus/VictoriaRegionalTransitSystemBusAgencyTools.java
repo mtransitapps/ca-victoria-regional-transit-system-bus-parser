@@ -309,6 +309,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			} else if (Arrays.asList( //
 					"A " + U_VIC, //
 					"N " + U_VIC, //
+					"N " + U_VIC + " - Cook St Vlg", //
 					U_VIC //
 					).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
@@ -556,6 +557,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mTrip.getRouteId() == 57l) {
 			if (Arrays.asList( //
+					LANGFORD_EXCH, //
 					LANGFORD_EXCH + _ONLY, //
 					THETIS_HTS //
 					).containsAll(headsignsValues)) {
