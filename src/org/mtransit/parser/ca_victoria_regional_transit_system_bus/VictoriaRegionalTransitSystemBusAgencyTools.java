@@ -251,7 +251,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString("James Bay", mTrip.getHeadsignId()); // DOWNTOWN
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 3l) {
+		} else if (mTrip.getRouteId() == 3L) {
 			if (Arrays.asList( //
 					"Downtown", //
 					"Royal Jubilee - Cook St Vlg", //
@@ -269,7 +269,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString("James Bay", mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 4l) {
+		} else if (mTrip.getRouteId() == 4L) {
 			if (Arrays.asList( //
 					DOWNTOWN, //
 					HILLSIDE + AND + DOUGLAS + _ONLY //
@@ -277,7 +277,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 6l) {
+		} else if (mTrip.getRouteId() == 6L) {
 			if (Arrays.asList( //
 					"A " + DOWNTOWN, //
 					"B " + DOWNTOWN, //
@@ -315,7 +315,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 8l) {
+		} else if (mTrip.getRouteId() == 8L) {
 			if (Arrays.asList( //
 					"Douglas - Mayfair Mall", //
 					OAK_BAY, //
@@ -340,7 +340,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(SONGHEES, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 11l) {
+		} else if (mTrip.getRouteId() == 11L) {
 			if (Arrays.asList( //
 					DOWNTOWN, //
 					U_VIC //
@@ -348,7 +348,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(U_VIC, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 14l) {
+		} else if (mTrip.getRouteId() == 14L) {
 			if (Arrays.asList( //
 					DOWNTOWN, // SAME
 					U_VIC //
@@ -362,7 +362,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(VIC_GENERAL, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 15l) {
+		} else if (mTrip.getRouteId() == 15L) {
 			if (Arrays.asList( //
 					DOWNTOWN, //
 					U_VIC //
@@ -412,7 +412,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(HILLSIDE_MALL, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 24l) {
+		} else if (mTrip.getRouteId() == 24L) {
 			if (Arrays.asList( //
 					ADMIRALS_WALK, //
 					DOWNTOWN //
@@ -420,7 +420,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(ADMIRALS_WALK, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 25l) {
+		} else if (mTrip.getRouteId() == 25L) {
 			if (Arrays.asList( //
 					ADMIRALS_WALK, //
 					"Shoreline Sch", //
@@ -429,7 +429,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(COLWOOD_EXCH, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 26l) {
+		} else if (mTrip.getRouteId() == 26L) {
 			if (Arrays.asList( //
 					UPTOWN + _ONLY, //
 					U_VIC //
@@ -443,7 +443,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOCKYARD, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 27l) {
+		} else if (mTrip.getRouteId() == 27L) {
 			if (Arrays.asList( //
 					BEACON_HILL, //
 					DOWNTOWN, //
@@ -453,7 +453,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 28l) {
+		} else if (mTrip.getRouteId() == 28L) {
 			if (Arrays.asList( //
 					MAJESTIC, //
 					"X " + MAJESTIC //
@@ -469,7 +469,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 30l) {
+		} else if (mTrip.getRouteId() == 30L) {
 			if (Arrays.asList( //
 					ROYAL_OAK_EXCH, //
 					SAANICHTON //
@@ -499,7 +499,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 32l) {
+		} else if (mTrip.getRouteId() == 32L) {
 			if (Arrays.asList( //
 					DOWNTOWN, //
 					ROYAL_OAK_EXCH //
@@ -507,7 +507,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(ROYAL_OAK_EXCH, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 39l) {
+		} else if (mTrip.getRouteId() == 39L) {
 			if (Arrays.asList( //
 					ROYAL_OAK_EXCH, //
 					U_VIC //
@@ -523,7 +523,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(WESTHILLS_EXCH, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 50l) {
+		} else if (mTrip.getRouteId() == 50L) {
 			if (Arrays.asList( //
 					LANGFORD, //
 					SOOKE //
@@ -531,7 +531,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(LANGFORD, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 52l) {
+		} else if (mTrip.getRouteId() == 52L) {
 			if (Arrays.asList( //
 					COLWOOD_EXCH, //
 					LANGFORD_EXCH + _ONLY //
@@ -540,6 +540,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			} else if (Arrays.asList( //
 					BEAR_MOUTAIN, //
+					BEAR_MOUTAIN + " - " + "Lagoon" + SLASH + "Royal Bay", //
 					LANGFORD_EXCH, //
 					LANGFORD_EXCH + _ONLY, //
 					WESTERN_SPEEDWAY //
@@ -547,7 +548,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(BEAR_MOUTAIN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 55l) {
+		} else if (mTrip.getRouteId() == 55L) {
 			if (Arrays.asList( //
 					COLWOOD_EXCH, //
 					HAPPY_VLY //
@@ -555,7 +556,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(HAPPY_VLY, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 57l) {
+		} else if (mTrip.getRouteId() == 57L) {
 			if (Arrays.asList( //
 					LANGFORD_EXCH, //
 					LANGFORD_EXCH + _ONLY, //
@@ -566,23 +567,24 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			}
 		} else if (mTrip.getRouteId() == 61L) {
 			if (Arrays.asList( //
-					DOWNTOWN, // same
+					DOWNTOWN, // <>
 					LANGFORD + SLASH + DOWNTOWN, //
 					LANGFORD, //
+					LANGFORD + " - " + "Jacklin" + SLASH + "Sta", //
 					LANGFORD_EXCH, //
 					"X " + DOWNTOWN //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(LANGFORD + SLASH + DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
-					DOWNTOWN, // same
+					DOWNTOWN, // <>
 					SOOKE, //
 					"X " + SOOKE //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(SOOKE, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 64l) {
+		} else if (mTrip.getRouteId() == 64L) {
 			if (Arrays.asList( //
 					EAST_SOOKE, //
 					LANGFORD, //
@@ -600,7 +602,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 72l) {
+		} else if (mTrip.getRouteId() == 72L) {
 			if (Arrays.asList( //
 					MC_DONALD_PARK, //
 					SWARTZ_BAY_FERRY //
@@ -615,7 +617,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 75l) {
+		} else if (mTrip.getRouteId() == 75L) {
 			if (Arrays.asList( //
 					OLDFIELD, //
 					"Keating" + _ONLY, //
@@ -630,7 +632,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(DOWNTOWN, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 81l) {
+		} else if (mTrip.getRouteId() == 81L) {
 			if (Arrays.asList( //
 					BRENTWOOD, //
 					"Brentwood Butchart Grdns", //
@@ -656,7 +658,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(BRENTWOOD, mTrip.getHeadsignId());
 				return true;
 			}
-		} else if (mTrip.getRouteId() == 83l) {
+		} else if (mTrip.getRouteId() == 83L) {
 			if (Arrays.asList( //
 					BRENTWOOD, //
 					ROYAL_OAK_EXCH //
