@@ -26,8 +26,8 @@ import org.mtransit.parser.mt.data.MTripStop;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.mt.data.MTrip;
 
-// https://bctransit.com/*/footer/open-data
-// https://bctransit.com/servlet/bctransit/data/GTFS - Victoria
+// https://www.bctransit.com/open-data
+// https://www.bctransit.com/data/gtfs/victoria.zip
 public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(String[] args) {
