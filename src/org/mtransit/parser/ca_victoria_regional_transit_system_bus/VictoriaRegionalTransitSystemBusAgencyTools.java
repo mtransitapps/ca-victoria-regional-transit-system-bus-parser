@@ -227,21 +227,18 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			return; // split
 		}
 		if (mRoute.getId() == 1L) {
-			if (false) {
-				// TODO check
-			}
-			if (gTrip.getDirectionId() == 0) { // DOWNTOWN - ????
+			if (gTrip.getDirectionId() == 0) { // DOWNTOWN - WEST
 				if (Arrays.asList( //
 						"Downtown" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.INBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
 					return;
 				}
-			} else if (gTrip.getDirectionId() == 1) { // SOUTH OAK BAY - ????
+			} else if (gTrip.getDirectionId() == 1) { // SOUTH OAK BAY - EAST
 				if (Arrays.asList( //
 						"South Oak Bay via Richardson" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.OUTBOUND);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
 					return;
 				}
 			}
@@ -361,21 +358,18 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 9L) {
-			if (false) {
-				// TODO check
-			}
-			if (gTrip.getDirectionId() == 0) { // ROYAL OAK - CLOCKWISE
+			if (gTrip.getDirectionId() == 0) { // ROYAL OAK - WEST
 				if (Arrays.asList( //
 						"Royal Oak Exch - Hillside/Gorge" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.CLOCKWISE);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
 					return;
 				}
-			} else if (gTrip.getDirectionId() == 1) { // UVIC - COUNTERCLOCKWISE
+			} else if (gTrip.getDirectionId() == 1) { // UVIC - EAST
 				if (Arrays.asList( //
 						"UVic - Gorge/Hillside" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
 					return;
 				}
 			}
@@ -430,9 +424,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 13L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // UVIC - WEST
 				if (Arrays.asList( //
 						"UVic" //
@@ -486,9 +477,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 16L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // UPTOWN - WEST
 				if (Arrays.asList( //
 						"Uptown - McKenzie Exp" //
@@ -505,9 +493,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 17L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // Downtown - WEST
 				if (Arrays.asList( //
 						"Downtown Via Quadra" //
@@ -708,11 +693,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 35L) {
-			if (false) {
-				// TODO check
-				// TODO split? NORTH/SOUTH
-			}
-			if (gTrip.getDirectionId() == 0) { // Ridge - ????
+			// TODO split? NORTH/SOUTH
+			if (gTrip.getDirectionId() == 0) { // Ridge - CLOCKWISE
 				if (Arrays.asList( //
 						"Ridge" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -968,23 +950,18 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 63L) {
-			if (false) {
-				// TODO check
-			}
-			if (gTrip.getDirectionId() == 0) { // OTTER POINT - ?????
+			// TODO split?
+			if (gTrip.getDirectionId() == 0) { // OTTER POINT - WEST
 				if (Arrays.asList( //
 						"Otter Point" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
 					return;
 				}
 			}
 		} else if (mTrip.getRouteId() == 64L) {
-			if (false) {
-				// TODO check
-				// TODO split
-			}
-			if (gTrip.getDirectionId() == 0) { // SOOKE - ?????
+			// TODO split
+			if (gTrip.getDirectionId() == 0) { // SOOKE - CLOCKWISE
 				if (Arrays.asList( //
 						"East Sooke To 17 Mile House", //
 						"East Sooke To Langford", //
@@ -995,9 +972,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 65L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // SOOKE - WEST
 				if (Arrays.asList( //
 						"Sooke Via Westhills" //
@@ -1031,9 +1005,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 71L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // SWARTZ BAY FERRY - NORTH
 				if (Arrays.asList( //
 						"Swartz Bay Ferry Via West Sidney" //
@@ -1088,22 +1059,21 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 76L) {
-			if (false) {
-				// TODO check
-			}
-			if (gTrip.getDirectionId() == 0) { // SWARTZ BAY FERRY - NORTH
-				if (Arrays.asList( //
-						"Swartz Bay Ferry Non-Stop" //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
-					return;
-				}
-			} else if (gTrip.getDirectionId() == 1) { // UVIC - SOUTH
-				if (Arrays.asList( //
-						"UVic - Via Express" //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
-					return;
+			if (isGoodEnoughAccepted()) { // TODO check
+				if (gTrip.getDirectionId() == 0) { // SWARTZ BAY FERRY - NORTH
+					if (Arrays.asList( //
+							"Swartz Bay Ferry Non-Stop" //
+					).contains(gTrip.getTripHeadsign())) {
+						mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
+						return;
+					}
+				} else if (gTrip.getDirectionId() == 1) { // UVIC - SOUTH
+					if (Arrays.asList( //
+							"UVic - Via Express" //
+					).contains(gTrip.getTripHeadsign())) {
+						mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
+						return;
+					}
 				}
 			}
 		} else if (mTrip.getRouteId() == 81L) {
@@ -1126,9 +1096,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 82L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // SIDNEY - NORTH
 				if (Arrays.asList( //
 						"Sidney Via Stautw" //
@@ -1162,28 +1129,23 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 85L) {
-			if (false) {
-				// TODO check
-			}
-			if (gTrip.getDirectionId() == 0) { // NORTH SAANICH - ????
+			// TODO split
+			if (gTrip.getDirectionId() == 0) { // NORTH SAANICH - CLOCKWISE
 				if (Arrays.asList( //
 						"North Saanich" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.CLOCKWISE);
 					return;
 				}
-			} else if (gTrip.getDirectionId() == 1) { // NORTH SAANICH - ???
+			} else if (gTrip.getDirectionId() == 1) { // NORTH SAANICH - CLOCKWISE
 				if (Arrays.asList( //
 						"North Saanich" //
 				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.CLOCKWISE);
 					return;
 				}
 			}
 		} else if (mTrip.getRouteId() == 87L) {
-			if (false) {
-				// TODO check
-			}
 			if (gTrip.getDirectionId() == 0) { // SIDNEY - NORTH
 				if (Arrays.asList( //
 						"Sidney" //
