@@ -321,10 +321,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mRoute.getId() == 7L) {
 			if (gTrip.getDirectionId() == 0) { // DOWNTOWN - CLOCKWISE
 				if (Arrays.asList( //
-						"Downtown To 21 Interurban", //
 						"Downtown Only", //
+						"7N Downtown Only", //
+						"Downtown - To 21 Interurban", //
 						"7N Downtown - To 21 Interurban", //
-						"7N Downtown Only" //
+						"Downtown To 21 Interurban" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.CLOCKWISE);
 					return;
@@ -641,21 +642,18 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 30L) {
-			if (gTrip.getDirectionId() == 0) { // ROYAL OAK - NORTH
-				if (Arrays.asList( //
-						"Royal Oak Exch Via Carey", //
-						"Royal Oak Exch To 75 Saanichton" //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
-					return;
-				}
-			} else if (gTrip.getDirectionId() == 1) { // DOWNTOWN - SOUTH
-				if (Arrays.asList( //
-						"Downtown" //
-				).contains(gTrip.getTripHeadsign())) {
-					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
-					return;
-				}
+			if (Arrays.asList( //
+					"Royal Oak Exch Via Carey", //
+					"Royal Oak Exch To 75 Saanichton" //
+			).contains(gTrip.getTripHeadsign())) {
+				mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.NORTH);
+				return;
+			}
+			if (Arrays.asList( //
+					"Downtown" //
+			).contains(gTrip.getTripHeadsign())) {
+				mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
+				return;
 			}
 		} else if (mTrip.getRouteId() == 31L) {
 			if (gTrip.getDirectionId() == 0) { // ROYAL OAK - NORTH
@@ -668,6 +666,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // DOWNTOWN - SOUTH
 				if (Arrays.asList( //
+						"To Gorge Only", //
 						"To Uptown Only", //
 						"Downtown" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -764,6 +763,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 48L) {
 			if (gTrip.getDirectionId() == 0) { // HAPPY VALLEY - WEST
 				if (Arrays.asList( //
+						"Happy Valley via Colwood", //
 						"HAPPY VALLEY VIA COLWOOD" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.WEST);
@@ -1384,6 +1384,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(ROYAL_OAK_EXCH, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
+					GORGE, //
 					UPTOWN, //
 					DOWNTOWN //
 					).containsAll(headsignsValues)) {
