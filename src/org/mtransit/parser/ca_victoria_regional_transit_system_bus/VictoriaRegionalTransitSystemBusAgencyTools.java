@@ -971,6 +971,16 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 					return;
 				}
 			}
+			if (isGoodEnoughAccepted()) {
+				if (gTrip.getDirectionId() == 1) { // SOOKE - ????
+					if (Arrays.asList( //
+							"East Sooke" //
+					).contains(gTrip.getTripHeadsign())) {
+						mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+						return;
+					}
+				}
+			}
 		} else if (mTrip.getRouteId() == 65L) {
 			if (gTrip.getDirectionId() == 0) { // SOOKE - WEST
 				if (Arrays.asList( //
