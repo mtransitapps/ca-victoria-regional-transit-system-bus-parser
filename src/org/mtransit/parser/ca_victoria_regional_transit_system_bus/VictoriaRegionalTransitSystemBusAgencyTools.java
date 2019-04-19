@@ -534,6 +534,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 						"Downtown", //
 						"Vic General - Watkiss Way Via Burnside", //
 						"22A Vic General - Watkiss Wy Via S. Vale", //
+						"22A Vic General Via S. Vale", //
 						"To Spectrum School", //
 						"Vic General Via Burnside" //
 				).contains(gTrip.getTripHeadsign())) {
