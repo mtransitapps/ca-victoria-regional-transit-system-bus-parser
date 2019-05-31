@@ -254,6 +254,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				if (Arrays.asList( //
 						"James Bay - Fisherman's Wharf", // <>
 						"Downtown", //
+						"Downtown Only", //
 						"South Oak Bay - Oak Bay Village", //
 						"Willows - Oak Bay Village" //
 				).contains(gTrip.getTripHeadsign())) {
@@ -352,6 +353,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				if (Arrays.asList( //
 						"To Richmond & Oak Bay Ave Only", //
 						"To Douglas Only - Mayfair Mall", //
+						"Oak Bay Via Finlayson", //
 						"Oak Bay Via Finalyson" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
@@ -402,6 +404,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			} else if (gTrip.getDirectionId() == 1) { // UVIC - EAST
 				if (Arrays.asList( //
 						"Downtown", //
+						"Downtown Only", //
 						"UVic Via Uplands" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.EAST);
@@ -451,6 +454,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // UVIC - EAST
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"UVic", //
 						"UVic Via Richmond" //
@@ -531,9 +535,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 22L) {
 			if (gTrip.getDirectionId() == 0) { // VIC GENERAL - NORTH
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"Vic General - Watkiss Way Via Burnside", //
 						"22A Vic General - Watkiss Wy Via S. Vale", //
+						"22A Vic General Via Straw Vale", //
 						"22A Vic General Via S. Vale", //
 						"To Spectrum School", //
 						"Vic General Via Burnside" //
@@ -543,6 +549,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // NILLSIDE MALL - SOUTH
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"22A Hillside Mall Via Straw Vale", //
 						"Hillside Mall Via Fernwood" //
@@ -554,6 +561,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 24L) {
 			if (gTrip.getDirectionId() == 0) { // Admirals Walk - WEST
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"Admirals Walk Via Parklands/Colville", //
 						"Admirals Walk Via Colville" //
@@ -839,6 +847,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 53L) {
 			if (gTrip.getDirectionId() == 0) { // COLWOOD EXCHANGE - CLOCKWISE
 				if (Arrays.asList( //
+						"Colwood Exch Via Atkins - Thetis Lk", //
 						"Colwood Exch Via Atkins" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.CLOCKWISE);
@@ -846,6 +855,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // LANGFORD EXCHANGE - COUNTERCLOCKWISE
 				if (Arrays.asList( //
+						"Langford Exch Via Atkins - Theits Lk", //
 						"Langford Exch Via Atkins" //
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
@@ -1186,6 +1196,17 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				).contains(gTrip.getTripHeadsign())) {
 					mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.SOUTH);
 					return;
+				}
+			}
+		} else if (mTrip.getRouteId() == 11_802L) { // ARB
+			if (isGoodEnoughAccepted()) { // TODO check
+				if (gTrip.getDirectionId() == 1) { // ??? - ????
+					if (Arrays.asList( //
+							"Shuttle Bus" //
+					).contains(gTrip.getTripHeadsign())) {
+						mTrip.setHeadsignString(cleanTripHeadsign(gTrip.getTripHeadsign()), StrategicMappingCommons.COUNTERCLOCKWISE);
+						return;
+					}
 				}
 			}
 		}
