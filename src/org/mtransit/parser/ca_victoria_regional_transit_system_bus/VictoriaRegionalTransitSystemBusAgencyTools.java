@@ -451,6 +451,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (mTrip.getRouteId() == 14L) {
 			if (gTrip.getDirectionId() == 0) { // VIC GENERAL - WEST
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"Vic General Via Craigflower" //
 				).contains(tripHeadsign)) {
@@ -840,6 +841,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			} else if (gTrip.getDirectionId() == 1) { // COLWOOD EXCHANGE - EAST
 				if (Arrays.asList( //
 						"Langford Exch", //
+						"Langford Exch Via Lagoon", //
 						"Colwood Exch Via Royal Bay/Lagoon", //
 						"Colwood Exch Via Royal Bay", //
 						"Colwood Exch Via Lagoon", //
@@ -860,6 +862,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // LANGFORD EXCHANGE - COUNTERCLOCKWISE
 				if (Arrays.asList( //
+						"Langford Exch Via Atkins - Thetis Lk", //
 						"Langford Exch Via Atkins - Theits Lk", //
 						"Langford Exch Via Atkins" //
 				).contains(tripHeadsign)) {
