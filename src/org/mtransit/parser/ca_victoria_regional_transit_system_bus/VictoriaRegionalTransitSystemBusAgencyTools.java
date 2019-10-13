@@ -992,7 +992,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 			if (isGoodEnoughAccepted()) {
-				if (gTrip.getDirectionId() == 1) { // SOOKE - ????
+				if (gTrip.getDirectionId() == 1) { // EAST SOOKE - ????
 					if (Arrays.asList( //
 							"East Sooke" //
 					).contains(tripHeadsign)) {
@@ -1089,21 +1089,19 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (mTrip.getRouteId() == 76L) {
-			if (isGoodEnoughAccepted()) { // TODO check
-				if (gTrip.getDirectionId() == 0) { // SWARTZ BAY FERRY - NORTH
-					if (Arrays.asList( //
-							"Swartz Bay Ferry Non-Stop" //
-					).contains(tripHeadsign)) {
-						mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.NORTH);
-						return;
-					}
-				} else if (gTrip.getDirectionId() == 1) { // UVIC - SOUTH
-					if (Arrays.asList( //
-							"UVic - Via Express" //
-					).contains(tripHeadsign)) {
-						mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.SOUTH);
-						return;
-					}
+			if (gTrip.getDirectionId() == 0) { // SWARTZ BAY FERRY - NORTH
+				if (Arrays.asList( //
+						"Swartz Bay Ferry Non-Stop" //
+				).contains(tripHeadsign)) {
+					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.NORTH);
+					return;
+				}
+			} else if (gTrip.getDirectionId() == 1) { // UVIC - SOUTH
+				if (Arrays.asList( //
+						"UVic - Via Express" //
+				).contains(tripHeadsign)) {
+					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.SOUTH);
+					return;
 				}
 			}
 		} else if (mTrip.getRouteId() == 81L) {
@@ -1205,17 +1203,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				).contains(tripHeadsign)) {
 					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.SOUTH);
 					return;
-				}
-			}
-		} else if (mTrip.getRouteId() == 999L) { // ARB
-			if (isGoodEnoughAccepted()) { // TODO check
-				if (gTrip.getDirectionId() == 1) { // ??? - ????
-					if (Arrays.asList( //
-							"Shuttle Bus" //
-					).contains(tripHeadsign)) {
-						mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.COUNTERCLOCKWISE);
-						return;
-					}
 				}
 			}
 		}
