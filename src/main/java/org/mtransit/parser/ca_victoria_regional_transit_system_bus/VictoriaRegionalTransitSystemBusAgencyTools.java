@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.mtransit.commons.StrategicMappingCommons;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
+import org.mtransit.parser.MTLog;
 import org.mtransit.parser.Pair;
 import org.mtransit.parser.SplitUtils;
 import org.mtransit.parser.SplitUtils.RouteTripSpec;
@@ -46,11 +47,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public void start(String[] args) {
-		System.out.printf("\nGenerating Victoria Regional TS bus data...");
+		MTLog.log("Generating Victoria Regional TS bus data...");
 		long start = System.currentTimeMillis();
 		this.serviceIds = extractUsefulServiceIds(args, this, true);
 		super.start(args);
-		System.out.printf("\nGenerating Victoria Regional TS bus data... DONE in %s.\n", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+		MTLog.log("Generating Victoria Regional TS bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	@Override
@@ -58,15 +59,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		return this.serviceIds != null && this.serviceIds.isEmpty();
 	}
 
-	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH = null;
-	private static final String INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 = null;
-
 	@Override
 	public boolean excludeCalendar(GCalendar gCalendar) {
-		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gCalendar.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
-				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gCalendar.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendar(gCalendar, this.serviceIds);
 		}
@@ -75,10 +69,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
-		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gCalendarDates.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
-				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gCalendarDates.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
 		}
@@ -97,10 +87,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Override
 	public boolean excludeTrip(GTrip gTrip) {
-		if (INCLUDE_ONLY_SERVICE_ID_STARTS_WITH != null && !gTrip.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH)
-				&& INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2 != null && !gTrip.getServiceId().startsWith(INCLUDE_ONLY_SERVICE_ID_STARTS_WITH2)) {
-			return true;
-		}
 		if (this.serviceIds != null) {
 			return excludeUselessTrip(gTrip, this.serviceIds);
 		}
@@ -196,7 +182,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 	static {
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<Long, RouteTripSpec>();
+		//noinspection UnnecessaryLocalVariable
+		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
 		ALL_ROUTE_TRIPS2 = map2;
 	}
 
@@ -480,6 +467,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			} else if (gTrip.getDirectionId() == 1) { // UVIC - EAST
 				if (Arrays.asList( //
+						"Downtown Only", //
 						"Downtown", //
 						"UVic - Foul Bay Exp" //
 				).contains(tripHeadsign)) {
@@ -991,14 +979,12 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 					return;
 				}
 			}
-			if (isGoodEnoughAccepted()) {
-				if (gTrip.getDirectionId() == 1) { // EAST SOOKE - ????
-					if (Arrays.asList( //
-							"East Sooke" //
-					).contains(tripHeadsign)) {
-						mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.COUNTERCLOCKWISE);
-						return;
-					}
+			if (gTrip.getDirectionId() == 1) { // EAST SOOKE - ????
+				if (Arrays.asList( //
+						"East Sooke" //
+				).contains(tripHeadsign)) {
+					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.COUNTERCLOCKWISE);
+					return;
 				}
 			}
 		} else if (mTrip.getRouteId() == 65L) {
@@ -1206,8 +1192,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		}
-		System.out.printf("\n%s: Unexpected trips headsign for %s!\n", mTrip.getRouteId(), gTrip);
-		System.exit(-1);
+		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip);
 	}
 
 	@Override
@@ -1546,15 +1531,14 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			}
 		}
-		System.out.printf("\nUnexpected trips to merges %s & %s!\n", mTrip, mTripToMerge);
-		System.exit(-1);
+		MTLog.logFatal("Unexpected trips to merges %s & %s!", mTrip, mTripToMerge);
 		return false;
 	}
 
-	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W){1}(exchange)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W)(exchange)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String EXCHANGE_REPLACEMENT = "$2" + EXCH + "$4";
 
-	private static final Pattern HEIGHTS = Pattern.compile("((^|\\W){1}(Hghts)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern HEIGHTS = Pattern.compile("((^|\\W)(Hghts)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String HEIGHTS_REPLACEMENT = "$2Hts$4";
 
 	private static final Pattern ENDS_WITH_EXPRESS = Pattern.compile("( express.*$)", Pattern.CASE_INSENSITIVE);
@@ -1565,9 +1549,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static final Pattern STARTS_WITH_TO_ = Pattern.compile("(^to )", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern ENDS_WITH_DASH = Pattern.compile("( \\- .*$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH_DASH = Pattern.compile("( - .*$)", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern ENDS_WITH_NON_STOP = Pattern.compile("( non\\-stop$)", Pattern.CASE_INSENSITIVE);
+	private static final Pattern ENDS_WITH_NON_STOP = Pattern.compile("( non-stop$)", Pattern.CASE_INSENSITIVE);
 
 	private static final Pattern ENDS_WITH_ONLY = Pattern.compile("( only$)", Pattern.CASE_INSENSITIVE);
 
@@ -1593,10 +1577,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static final Pattern STARTS_WITH_BOUND = Pattern.compile("(^(east|west|north|south)bound)", Pattern.CASE_INSENSITIVE);
 
-	private static final Pattern UVIC = Pattern.compile("((^|\\W){1}(uvic)(\\W|$){1})", Pattern.CASE_INSENSITIVE);
+	private static final Pattern UVIC = Pattern.compile("((^|\\W)(uvic)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String UVIC_REPLACEMENT = "$2" + U_VIC + "$4";
 
-	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(\\-IMPL\\-\\)))", Pattern.CASE_INSENSITIVE);
+	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
 
 	@Override
 	public String cleanStopName(String gStopName) {
