@@ -825,6 +825,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 52L) {
 			if (gTrip.getDirectionId() == 0) { // BEAR MOUNTAIN - WEST
 				if (Arrays.asList( //
+						"Langford Exch - Lagoon/Royal Bay", //
 						"Langford Exch Via Royal Bay", //
 						"Langford Exch Via Lagoon", //
 						"Langford Exch", //
@@ -977,9 +978,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		} else if (rsn == 64L) {
-			// TODO split
 			if (gTrip.getDirectionId() == 0) { // SOOKE - CLOCKWISE
 				if (Arrays.asList( //
+						"To 17 Mile House", //
+						"To Langford Exch", //
+						"Sooke", //
 						"East Sooke To 17 Mile House", //
 						"East Sooke To Langford", //
 						"East Sooke To Sooke" //
@@ -1201,7 +1204,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				}
 			}
 		}
-		MTLog.logFatal("%s: Unexpected trips head-sign for %s!", mTrip.getRouteId(), gTrip);
+		throw new MTLog.Fatal("%s: %s: Unexpected trips head-sign '%s' for %s!", mTrip.getRouteId(), rsn, tripHeadsign, gTrip.toStringPlus());
 	}
 
 	@Override
@@ -1473,6 +1476,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 64L) {
 			if (Arrays.asList( //
 					"17 " + MILE_HOUSE, //
+					"Langford Exch", //
 					LANGFORD, //
 					SOOKE //
 			).containsAll(headsignsValues)) {
