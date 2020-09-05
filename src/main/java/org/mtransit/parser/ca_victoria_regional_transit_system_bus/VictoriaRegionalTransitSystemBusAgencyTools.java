@@ -148,6 +148,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String DOCKYARD = "Dockyard";
 	private static final String ADMIRALS_WALK = "Admirals Walk";
 	private static final String HILLSIDE = "Hillside";
+	private static final String HILLSIDE_CENTER = HILLSIDE + " Ctr";
 	private static final String HILLSIDE_MALL = HILLSIDE + " Mall";
 	private static final String U_VIC = "UVic";
 	private static final String BRENTWOOD = "Brentwood";
@@ -160,7 +161,9 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String LANGFORD_EXCH = LANGFORD + " " + EXCH;
 	private static final String COLWOOD_EXCH = "Colwood " + EXCH;
 	private static final String HAPPY_VLY = "Happy Vly";
-	private static final String TILLICUM_MALL = "Tillicum Mall";
+	private static final String TILLICUM = "Tillicum";
+	private static final String TILLICUM_CENTER = TILLICUM + " Ctr";
+	private static final String TILLICUM_MALL = TILLICUM + " Mall";
 	private static final String SPECTRUM_SCHOOL = "Spectrum School";
 	private static final String GORGE = "Gorge";
 	private static final String INTERURBAN = "Interurban";
@@ -304,6 +307,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			if (gTrip.getDirectionId() == 0) { // ROYAL OAK - NORTH
 				if (Arrays.asList( //
 						"Royal Oak Exch Via Royal Oak Mall", //
+						"Royal Oak Exch Via Royal Oak Ctr", //
 						"A Royal Oak Exch Via Emily Carr", //
 						"B Royal Oak Exch Via Chatterton" //
 				).contains(tripHeadsign)) {
@@ -344,6 +348,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 8L) {
 			if (gTrip.getDirectionId() == 0) { // INTERURBAN - WEST
 				if (Arrays.asList( //
+						"Tillicum Ctr Via Finalyson", //
 						"Tillicum Mall Via Finalyson", //
 						"Interurban Via Finlayson" //
 				).contains(tripHeadsign)) {
@@ -397,6 +402,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 11L) {
 			if (gTrip.getDirectionId() == 0) { // TILLICUM MALL - WEST
 				if (Arrays.asList( //
+						"Tillicum Ctr Via Gorge", //
 						"Tillicum Mall Via Gorge" //
 				).contains(tripHeadsign)) {
 					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.WEST);
@@ -555,6 +561,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 						"Downtown Only", //
 						"Downtown", //
 						"A Hillside Mall Via Straw Vale", //
+						"A Hillside Ctr Via Straw Vale", //
+						"Hillside Ctr Via Fernwood", //
 						"Hillside Mall Via Fernwood" //
 				).contains(tripHeadsign)) {
 					mTrip.setHeadsignString(cleanTripHeadsign(tripHeadsign), StrategicMappingCommons.SOUTH);
@@ -1278,6 +1286,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				mTrip.setHeadsignString(OAK_BAY, mTrip.getHeadsignId());
 				return true;
 			} else if (Arrays.asList( //
+					TILLICUM_CENTER, //
 					TILLICUM_MALL, //
 					INTERURBAN //
 			).containsAll(headsignsValues)) {
@@ -1339,12 +1348,21 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(VIC_GENERAL, mTrip.getHeadsignId());
 				return true;
-			} else if (Arrays.asList( //
+			}
+			if (Arrays.asList( //
 					DOWNTOWN, // <>
 					"A " + HILLSIDE_MALL, //
 					HILLSIDE_MALL //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(HILLSIDE_MALL, mTrip.getHeadsignId());
+				return true;
+			}
+			if (Arrays.asList( //
+					DOWNTOWN, // <>
+					"A " + HILLSIDE_CENTER, //
+					HILLSIDE_CENTER //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString(HILLSIDE_CENTER, mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (rsn == 24L) {
@@ -1545,8 +1563,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			}
 		}
-		MTLog.logFatal("Unexpected trips to merges %s & %s!", mTrip, mTripToMerge);
-		return false;
+		throw new MTLog.Fatal("%s: Unexpected trips to merges %s & %s!", rsn, mTrip, mTripToMerge);
 	}
 
 	private static final Pattern EXCHANGE = Pattern.compile("((^|\\W)(exchange)(\\W|$))", Pattern.CASE_INSENSITIVE);
