@@ -186,7 +186,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String R_JUBILEE = "R. Jubilee";
 	private static final String VIC_WEST = "Vic West";
 
-	private static HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
+	private static final HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
 
 	static {
 		//noinspection UnnecessaryLocalVariable
@@ -833,6 +833,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 52L) {
 			if (gTrip.getDirectionId() == 0) { // BEAR MOUNTAIN - WEST
 				if (Arrays.asList( //
+						"To Royal Bay Sch Via Lagoon", //
 						"Langford Exch - Lagoon/Royal Bay", //
 						"Langford Exch Via Royal Bay", //
 						"Langford Exch Via Lagoon", //
@@ -940,6 +941,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 59L) {
 			if (gTrip.getDirectionId() == 1) { // LANGFORD EXCHANGE - COUNTERCLOCKWISE
 				if (Arrays.asList( //
+						"To Royal Bay Sch Via Triangle Mtn", //
 						"Triangle Mtn Via Royal Bay", //
 						"Triangle Mtn" //
 				).contains(tripHeadsign)) {
@@ -950,6 +952,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		} else if (rsn == 60L) {
 			if (gTrip.getDirectionId() == 0) { // LANGFORD EXCHANGE - CLOCKWISE
 				if (Arrays.asList( //
+						"Langford Exch", //
 						"Wishart Via Royal Bay", //
 						"Wishart" //
 				).contains(tripHeadsign)) {
@@ -1469,6 +1472,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 				return true;
 			} else if (Arrays.asList( //
 					LANGFORD_EXCH, // <>
+					"Royal Bay Sch", //
 					BEAR_MOUTAIN //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(BEAR_MOUTAIN, mTrip.getHeadsignId());
@@ -1480,6 +1484,22 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 					HAPPY_VLY //
 			).containsAll(headsignsValues)) {
 				mTrip.setHeadsignString(HAPPY_VLY, mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (rsn == 59L) {
+			if (Arrays.asList( //
+					"Royal Bay Sch", //
+					"Triangle Mtn" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Triangle Mtn", mTrip.getHeadsignId());
+				return true;
+			}
+		} else if (rsn == 60L) {
+			if (Arrays.asList( //
+					"Langford Exch", //
+					"Wishart" //
+			).containsAll(headsignsValues)) {
+				mTrip.setHeadsignString("Wishart", mTrip.getHeadsignId());
 				return true;
 			}
 		} else if (rsn == 61L) {
