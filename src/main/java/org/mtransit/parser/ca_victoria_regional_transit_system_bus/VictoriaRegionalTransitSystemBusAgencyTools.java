@@ -180,11 +180,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@NotNull
 	private String[] getIgnoredUpperCaseWords() {
-		return new String[]{"BC", "HCP", "HMC", "SEAPARC", "VI"};
+		return new String[]{"BC", "HCP", "HMC", "SEAPARC", "VI", "UVic"};
 	}
 
-	private static final Pattern UVIC = Pattern.compile("((^|\\W)(uvic)(\\W|$))", Pattern.CASE_INSENSITIVE);
-	private static final String UVIC_REPLACEMENT = "$2" + U_VIC + "$4";
+	private static final Pattern FIX_UVIC = CleanUtils.cleanWords("uvic");
+	private static final String FIX_UVIC_REPLACEMENT = CleanUtils.cleanWordsReplacement("UVic");
 
 	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)))", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
@@ -199,7 +199,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = CleanUtils.CLEAN_AND.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
 		gStopName = EXCHANGE.matcher(gStopName).replaceAll(EXCHANGE_REPLACEMENT);
-		gStopName = UVIC.matcher(gStopName).replaceAll(UVIC_REPLACEMENT);
+		gStopName = FIX_UVIC.matcher(gStopName).replaceAll(FIX_UVIC_REPLACEMENT);
 		gStopName = CleanUtils.cleanStreetTypes(gStopName);
 		gStopName = CleanUtils.cleanNumbers(gStopName);
 		return CleanUtils.cleanLabel(gStopName);
