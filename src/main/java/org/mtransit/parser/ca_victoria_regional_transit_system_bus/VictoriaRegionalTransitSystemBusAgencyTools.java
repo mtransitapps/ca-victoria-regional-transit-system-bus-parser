@@ -1,13 +1,12 @@
 package org.mtransit.parser.ca_victoria_regional_transit_system_bus;
 
-import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.mtransit.commons.StrategicMappingCommons;
 import org.mtransit.parser.CleanUtils;
 import org.mtransit.parser.DefaultAgencyTools;
 import org.mtransit.parser.MTLog;
-import org.mtransit.parser.Pair;
-import org.mtransit.parser.SplitUtils;
-import org.mtransit.parser.SplitUtils.RouteTripSpec;
+import org.mtransit.parser.StringUtils;
 import org.mtransit.parser.Utils;
 import org.mtransit.parser.gtfs.data.GCalendar;
 import org.mtransit.parser.gtfs.data.GCalendarDate;
@@ -15,13 +14,10 @@ import org.mtransit.parser.gtfs.data.GRoute;
 import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
 import org.mtransit.parser.gtfs.data.GTrip;
-import org.mtransit.parser.gtfs.data.GTripStop;
 import org.mtransit.parser.mt.data.MAgency;
 import org.mtransit.parser.mt.data.MRoute;
 import org.mtransit.parser.mt.data.MTrip;
-import org.mtransit.parser.mt.data.MTripStop;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,11 +25,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import static org.mtransit.parser.Constants.EMPTY;
+
 // https://www.bctransit.com/open-data
 // https://victoria.mapstrat.com/current/google_transit.zip
 public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
-	public static void main(String[] args) {
+	public static void main(@Nullable String[] args) {
 		if (args == null || args.length == 0) {
 			args = new String[3];
 			args[0] = "input/gtfs.zip";
@@ -43,64 +41,58 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		new VictoriaRegionalTransitSystemBusAgencyTools().start(args);
 	}
 
-	private HashSet<String> serviceIds;
+	@Nullable
+	private HashSet<Integer> serviceIdInts;
 
 	@Override
-	public void start(String[] args) {
+	public void start(@NotNull String[] args) {
 		MTLog.log("Generating Victoria Regional TS bus data...");
 		long start = System.currentTimeMillis();
-		this.serviceIds = extractUsefulServiceIds(args, this, true);
+		this.serviceIdInts = extractUsefulServiceIdInts(args, this, true);
 		super.start(args);
 		MTLog.log("Generating Victoria Regional TS bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
 	}
 
 	@Override
 	public boolean excludingAll() {
-		return this.serviceIds != null && this.serviceIds.isEmpty();
+		return this.serviceIdInts != null && this.serviceIdInts.isEmpty();
 	}
 
 	@Override
-	public boolean excludeCalendar(GCalendar gCalendar) {
-		if (this.serviceIds != null) {
-			return excludeUselessCalendar(gCalendar, this.serviceIds);
+	public boolean excludeCalendar(@NotNull GCalendar gCalendar) {
+		if (this.serviceIdInts != null) {
+			return excludeUselessCalendarInt(gCalendar, this.serviceIdInts);
 		}
 		return super.excludeCalendar(gCalendar);
 	}
 
 	@Override
-	public boolean excludeCalendarDate(GCalendarDate gCalendarDates) {
-		if (this.serviceIds != null) {
-			return excludeUselessCalendarDate(gCalendarDates, this.serviceIds);
+	public boolean excludeCalendarDate(@NotNull GCalendarDate gCalendarDates) {
+		if (this.serviceIdInts != null) {
+			return excludeUselessCalendarDateInt(gCalendarDates, this.serviceIdInts);
 		}
 		return super.excludeCalendarDate(gCalendarDates);
 	}
 
-	private static final String INCLUDE_AGENCY_ID = "1"; // Victoria Regional Transit System only
-
 	@Override
-	public boolean excludeRoute(GRoute gRoute) {
-		if (!INCLUDE_AGENCY_ID.equals(gRoute.getAgencyId())) {
-			return true;
-		}
-		return super.excludeRoute(gRoute);
-	}
-
-	@Override
-	public boolean excludeTrip(GTrip gTrip) {
-		if (this.serviceIds != null) {
-			return excludeUselessTrip(gTrip, this.serviceIds);
+	public boolean excludeTrip(@NotNull GTrip gTrip) {
+		if (this.serviceIdInts != null) {
+			return excludeUselessTripInt(gTrip, this.serviceIdInts);
 		}
 		return super.excludeTrip(gTrip);
 	}
 
+	@NotNull
 	@Override
 	public Integer getAgencyRouteType() {
 		return MAgency.ROUTE_TYPE_BUS;
 	}
 
 	@Override
-	public long getRouteId(GRoute gRoute) { // used by GTFS-RT
-		if (!Utils.isDigitsOnly(gRoute.getRouteId())) {
+	public long getRouteId(@NotNull GRoute gRoute) { // used by GTFS-RT
+		//noinspection deprecation
+		final String routeId = gRoute.getRouteId();
+		if (!Utils.isDigitsOnly(routeId)) {
 			if ("ARB".equalsIgnoreCase(gRoute.getRouteShortName())) {
 				return 999L;
 			}
@@ -109,9 +101,10 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		return super.getRouteId(gRoute); // used by GTFS-RT
 	}
 
+	@NotNull
 	@Override
-	public String getRouteLongName(GRoute gRoute) {
-		String routeLongName = gRoute.getRouteLongName();
+	public String getRouteLongName(@NotNull GRoute gRoute) {
+		String routeLongName = gRoute.getRouteLongNameOrDefault();
 		routeLongName = CleanUtils.cleanNumbers(routeLongName);
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
@@ -122,13 +115,15 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static final String AGENCY_COLOR = AGENCY_COLOR_GREEN;
 
+	@NotNull
 	@Override
 	public String getAgencyColor() {
 		return AGENCY_COLOR;
 	}
 
+	@Nullable
 	@Override
-	public String getRouteColor(GRoute gRoute) {
+	public String getRouteColor(@NotNull GRoute gRoute) {
 		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
 			return AGENCY_COLOR_BLUE;
 		}
@@ -183,53 +178,18 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	private static final String WESTHILLS_EXCH = "Westhills Exch";
 	private static final String KEATING = "Keating";
 	private static final String SHORELINE_SCHOOL = "Shoreline Sch";
-	private static final String R_JUBILEE = "R. Jubilee";
+	private static final String R_JUBILEE = "R Jubilee";
 	private static final String VIC_WEST = "Vic West";
-
-	private static final HashMap<Long, RouteTripSpec> ALL_ROUTE_TRIPS2;
-
-	static {
-		//noinspection UnnecessaryLocalVariable
-		HashMap<Long, RouteTripSpec> map2 = new HashMap<>();
-		ALL_ROUTE_TRIPS2 = map2;
-	}
-
-	@Override
-	public int compareEarly(long routeId, List<MTripStop> list1, List<MTripStop> list2, MTripStop ts1, MTripStop ts2, GStop ts1GStop, GStop ts2GStop) {
-		if (ALL_ROUTE_TRIPS2.containsKey(routeId)) {
-			return ALL_ROUTE_TRIPS2.get(routeId).compare(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop, this);
-		}
-		return super.compareEarly(routeId, list1, list2, ts1, ts2, ts1GStop, ts2GStop);
-	}
-
-	@Override
-	public ArrayList<MTrip> splitTrip(MRoute mRoute, GTrip gTrip, GSpec gtfs) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return ALL_ROUTE_TRIPS2.get(mRoute.getId()).getAllTrips();
-		}
-		return super.splitTrip(mRoute, gTrip, gtfs);
-	}
-
-	@Override
-	public Pair<Long[], Integer[]> splitTripStop(MRoute mRoute, GTrip gTrip, GTripStop gTripStop, ArrayList<MTrip> splitTrips, GSpec routeGTFS) {
-		if (ALL_ROUTE_TRIPS2.containsKey(mRoute.getId())) {
-			return SplitUtils.splitTripStop(mRoute, gTrip, gTripStop, routeGTFS, ALL_ROUTE_TRIPS2.get(mRoute.getId()), this);
-		}
-		return super.splitTripStop(mRoute, gTrip, gTripStop, splitTrips, routeGTFS);
-	}
 
 	private final HashMap<Long, Long> routeIdToShortName = new HashMap<>();
 
 	@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 	@Override
-	public void setTripHeadsign(MRoute mRoute, MTrip mTrip, GTrip gTrip, GSpec gtfs) {
+	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
 		final long rsn = Long.parseLong(mRoute.getShortName());
 		this.routeIdToShortName.put(mRoute.getId(), rsn);
-		if (ALL_ROUTE_TRIPS2.containsKey(rsn)) {
-			return; // split
-		}
 		String tripHeadsign = gTrip.getTripHeadsign();
-		tripHeadsign = Pattern.compile("(^" + mRoute.getShortName() + "( )?)", Pattern.CASE_INSENSITIVE).matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = Pattern.compile("(^" + mRoute.getShortName() + "( )?)", Pattern.CASE_INSENSITIVE).matcher(tripHeadsign).replaceAll(EMPTY);
 		if (rsn == 1L) {
 			if (gTrip.getDirectionId() == 0) { // DOWNTOWN - WEST
 				if (Arrays.asList( //
@@ -1219,7 +1179,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	}
 
 	@Override
-	public boolean mergeHeadsign(MTrip mTrip, MTrip mTripToMerge) {
+	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
 		List<String> headsignsValues = Arrays.asList(mTrip.getHeadsignValue(), mTripToMerge.getHeadsignValue());
 		final long rsn = this.routeIdToShortName.get(mTrip.getRouteId());
 		if (rsn == 2L) {
@@ -1600,32 +1560,43 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	private static final Pattern ENDS_WITH_ONLY = Pattern.compile("( only$)", Pattern.CASE_INSENSITIVE);
 
+	private static final Pattern STARTS_WITH_RSN = Pattern.compile("(^\\d+)", Pattern.CASE_INSENSITIVE);
+
+	@NotNull
 	@Override
-	public String cleanTripHeadsign(String tripHeadsign) {
-		if (Utils.isUppercaseOnly(tripHeadsign, true, true)) {
-			tripHeadsign = tripHeadsign.toLowerCase(Locale.ENGLISH);
-		}
+	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
+		tripHeadsign = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, tripHeadsign, getIgnoredUpperCaseWords());
+		tripHeadsign = STARTS_WITH_RSN.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = EXCHANGE.matcher(tripHeadsign).replaceAll(EXCHANGE_REPLACEMENT);
 		tripHeadsign = HEIGHTS.matcher(tripHeadsign).replaceAll(HEIGHTS_REPLACEMENT);
-		tripHeadsign = ENDS_WITH_DASH.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = ENDS_WITH_DASH.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = CleanUtils.keepToAndRemoveVia(tripHeadsign);
-		tripHeadsign = ENDS_WITH_EXPRESS.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
-		tripHeadsign = ENDS_WITH_NON_STOP.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
-		tripHeadsign = ENDS_WITH_ONLY.matcher(tripHeadsign).replaceAll(StringUtils.EMPTY);
+		tripHeadsign = ENDS_WITH_EXPRESS.matcher(tripHeadsign).replaceAll(EMPTY);
+		tripHeadsign = ENDS_WITH_NON_STOP.matcher(tripHeadsign).replaceAll(EMPTY);
+		tripHeadsign = ENDS_WITH_ONLY.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = CleanUtils.cleanSlashes(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanStreetTypes(tripHeadsign);
 		tripHeadsign = CleanUtils.cleanNumbers(tripHeadsign);
 		return CleanUtils.cleanLabel(tripHeadsign);
 	}
 
+	@NotNull
+	private String[] getIgnoredUpperCaseWords() {
+		return new String[]{"BC", "HCP", "HMC", "SEAPARC", "VI"};
+	}
+
 	private static final Pattern UVIC = Pattern.compile("((^|\\W)(uvic)(\\W|$))", Pattern.CASE_INSENSITIVE);
 	private static final String UVIC_REPLACEMENT = "$2" + U_VIC + "$4";
 
+	private static final Pattern STARTS_WITH_DCOM = Pattern.compile("(^(\\(-DCOM-\\)))", Pattern.CASE_INSENSITIVE);
 	private static final Pattern STARTS_WITH_IMPL = Pattern.compile("(^(\\(-IMPL-\\)))", Pattern.CASE_INSENSITIVE);
 
+	@NotNull
 	@Override
-	public String cleanStopName(String gStopName) {
-		gStopName = STARTS_WITH_IMPL.matcher(gStopName).replaceAll(StringUtils.EMPTY);
+	public String cleanStopName(@NotNull String gStopName) {
+		gStopName = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, gStopName, getIgnoredUpperCaseWords());
+		gStopName = STARTS_WITH_DCOM.matcher(gStopName).replaceAll(EMPTY);
+		gStopName = STARTS_WITH_IMPL.matcher(gStopName).replaceAll(EMPTY);
 		gStopName = CleanUtils.cleanBounds(gStopName);
 		gStopName = CleanUtils.CLEAN_AT.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AT_REPLACEMENT);
 		gStopName = CleanUtils.CLEAN_AND.matcher(gStopName).replaceAll(CleanUtils.CLEAN_AND_REPLACEMENT);
@@ -1637,7 +1608,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	}
 
 	@Override
-	public int getStopId(GStop gStop) { // used by GTFS-RT
+	public int getStopId(@NotNull GStop gStop) { // used by GTFS-RT
 		return super.getStopId(gStop);
 	}
 }
