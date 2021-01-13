@@ -139,6 +139,26 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		return true;
 	}
 
+	private static final Pattern STARTS_WITH_LETTER = Pattern.compile("(^[a-z] )", Pattern.CASE_INSENSITIVE);
+
+	@Nullable
+	@Override
+	public String selectDirectionHeadSign(@Nullable String headSign1, @Nullable String headSign2) {
+		if (StringUtils.equals(headSign1, headSign2)) {
+			return null; // can NOT select
+		}
+		final boolean startsWithLetter1 = headSign1 != null && STARTS_WITH_LETTER.matcher(headSign1).find();
+		final boolean startsWithLetter2 = headSign2 != null && STARTS_WITH_LETTER.matcher(headSign2).find();
+		if (startsWithLetter1) {
+			if (!startsWithLetter2) {
+				return headSign2;
+			}
+		} else if (startsWithLetter2) {
+			return headSign1;
+		}
+		return null;
+	}
+
 	@Override
 	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
 		throw new MTLog.Fatal("%s: Unexpected trips to merges %s & %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
