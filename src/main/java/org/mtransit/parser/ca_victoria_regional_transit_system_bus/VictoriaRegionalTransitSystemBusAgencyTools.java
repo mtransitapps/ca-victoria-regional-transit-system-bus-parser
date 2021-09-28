@@ -1,81 +1,43 @@
 package org.mtransit.parser.ca_victoria_regional_transit_system_bus;
 
+import static org.mtransit.commons.Constants.EMPTY;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.mtransit.parser.CleanUtils;
+import org.mtransit.commons.CleanUtils;
+import org.mtransit.commons.StringUtils;
 import org.mtransit.parser.DefaultAgencyTools;
-import org.mtransit.parser.MTLog;
-import org.mtransit.parser.StringUtils;
-import org.mtransit.parser.Utils;
-import org.mtransit.parser.gtfs.data.GCalendar;
-import org.mtransit.parser.gtfs.data.GCalendarDate;
 import org.mtransit.parser.gtfs.data.GRoute;
-import org.mtransit.parser.gtfs.data.GSpec;
 import org.mtransit.parser.gtfs.data.GStop;
-import org.mtransit.parser.gtfs.data.GTrip;
 import org.mtransit.parser.mt.data.MAgency;
-import org.mtransit.parser.mt.data.MRoute;
-import org.mtransit.parser.mt.data.MTrip;
 
-import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
-import static org.mtransit.parser.Constants.EMPTY;
 
 // https://www.bctransit.com/open-data
 // https://victoria.mapstrat.com/current/google_transit.zip
 public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
-	public static void main(@Nullable String[] args) {
-		if (args == null || args.length == 0) {
-			args = new String[3];
-			args[0] = "input/gtfs.zip";
-			args[1] = "../../mtransitapps/ca-victoria-regional-transit-system-bus-android/res/raw/";
-			args[2] = ""; // files-prefix
-		}
+	public static void main(@NotNull String[] args) {
 		new VictoriaRegionalTransitSystemBusAgencyTools().start(args);
 	}
 
 	@Nullable
-	private HashSet<Integer> serviceIdInts;
-
 	@Override
-	public void start(@NotNull String[] args) {
-		MTLog.log("Generating Victoria Regional TS bus data...");
-		long start = System.currentTimeMillis();
-		this.serviceIdInts = extractUsefulServiceIdInts(args, this, true);
-		super.start(args);
-		MTLog.log("Generating Victoria Regional TS bus data... DONE in %s.", Utils.getPrettyDuration(System.currentTimeMillis() - start));
+	public List<Locale> getSupportedLanguages() {
+		return LANG_EN;
 	}
 
 	@Override
-	public boolean excludingAll() {
-		return this.serviceIdInts != null && this.serviceIdInts.isEmpty();
+	public boolean defaultExcludeEnabled() {
+		return true;
 	}
 
+	@NotNull
 	@Override
-	public boolean excludeCalendar(@NotNull GCalendar gCalendar) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessCalendarInt(gCalendar, this.serviceIdInts);
-		}
-		return super.excludeCalendar(gCalendar);
-	}
-
-	@Override
-	public boolean excludeCalendarDate(@NotNull GCalendarDate gCalendarDates) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessCalendarDateInt(gCalendarDates, this.serviceIdInts);
-		}
-		return super.excludeCalendarDate(gCalendarDates);
-	}
-
-	@Override
-	public boolean excludeTrip(@NotNull GTrip gTrip) {
-		if (this.serviceIdInts != null) {
-			return excludeUselessTripInt(gTrip, this.serviceIdInts);
-		}
-		return super.excludeTrip(gTrip);
+	public String getAgencyName() {
+		return "Victoria Regional TS";
 	}
 
 	@NotNull
@@ -85,25 +47,31 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	}
 
 	@Override
-	public long getRouteId(@NotNull GRoute gRoute) { // used by GTFS-RT
-		//noinspection deprecation
-		final String routeId = gRoute.getRouteId();
-		if (!Utils.isDigitsOnly(routeId)) {
-			if ("ARB".equalsIgnoreCase(gRoute.getRouteShortName())) {
-				return 999L;
-			}
-			return Long.parseLong(gRoute.getRouteShortName()); // use route short name as route ID
-		}
-		return super.getRouteId(gRoute); // used by GTFS-RT
+	public boolean defaultRouteIdEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean useRouteShortNameForRouteId() {
+		return false; // route ID used by GTFS-RT
+	}
+
+	@Override
+	public boolean defaultRouteLongNameEnabled() {
+		return true;
 	}
 
 	@NotNull
 	@Override
-	public String getRouteLongName(@NotNull GRoute gRoute) {
-		String routeLongName = gRoute.getRouteLongNameOrDefault();
+	public String cleanRouteLongName(@NotNull String routeLongName) {
 		routeLongName = CleanUtils.cleanNumbers(routeLongName);
 		routeLongName = CleanUtils.cleanStreetTypes(routeLongName);
 		return CleanUtils.cleanLabel(routeLongName);
+	}
+
+	@Override
+	public boolean defaultAgencyColorEnabled() {
+		return true;
 	}
 
 	private static final String AGENCY_COLOR_GREEN = "34B233";// GREEN (from PDF Corporate Graphic Standards)
@@ -119,19 +87,8 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 
 	@Nullable
 	@Override
-	public String getRouteColor(@NotNull GRoute gRoute) {
-		if (StringUtils.isEmpty(gRoute.getRouteColor())) {
-			return AGENCY_COLOR_BLUE;
-		}
-		return super.getRouteColor(gRoute);
-	}
-
-	@Override
-	public void setTripHeadsign(@NotNull MRoute mRoute, @NotNull MTrip mTrip, @NotNull GTrip gTrip, @NotNull GSpec gtfs) {
-		mTrip.setHeadsignString(
-				cleanTripHeadsign(gTrip.getTripHeadsignOrDefault()),
-				gTrip.getDirectionIdOrDefault()
-		);
+	public String provideMissingRouteColor(@NotNull GRoute gRoute) {
+		return AGENCY_COLOR_BLUE;
 	}
 
 	@Override
@@ -159,11 +116,6 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 		return null;
 	}
 
-	@Override
-	public boolean mergeHeadsign(@NotNull MTrip mTrip, @NotNull MTrip mTripToMerge) {
-		throw new MTLog.Fatal("%s: Unexpected trips to merges %s & %s!", mTrip.getRouteId(), mTrip, mTripToMerge);
-	}
-
 	private static final Pattern EXCHANGE = CleanUtils.cleanWords("exchange");
 	private static final String EXCHANGE_REPLACEMENT = CleanUtils.cleanWordsReplacement("Exch");
 
@@ -183,7 +135,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	@NotNull
 	@Override
 	public String cleanTripHeadsign(@NotNull String tripHeadsign) {
-		tripHeadsign = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, tripHeadsign, getIgnoredUpperCaseWords());
+		tripHeadsign = CleanUtils.toLowerCaseUpperCaseWords(getFirstLanguageNN(), tripHeadsign, getIgnoredUpperCaseWords());
 		tripHeadsign = STARTS_WITH_RSN.matcher(tripHeadsign).replaceAll(EMPTY);
 		tripHeadsign = EXCHANGE.matcher(tripHeadsign).replaceAll(EXCHANGE_REPLACEMENT);
 		tripHeadsign = HEIGHTS.matcher(tripHeadsign).replaceAll(HEIGHTS_REPLACEMENT);
@@ -212,7 +164,7 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	@NotNull
 	@Override
 	public String cleanStopName(@NotNull String gStopName) {
-		gStopName = CleanUtils.toLowerCaseUpperCaseWords(Locale.ENGLISH, gStopName, getIgnoredUpperCaseWords());
+		gStopName = CleanUtils.toLowerCaseUpperCaseWords(getFirstLanguageNN(), gStopName, getIgnoredUpperCaseWords());
 		gStopName = STARTS_WITH_DCOM.matcher(gStopName).replaceAll(EMPTY);
 		gStopName = STARTS_WITH_IMPL.matcher(gStopName).replaceAll(EMPTY);
 		gStopName = CleanUtils.cleanBounds(gStopName);
