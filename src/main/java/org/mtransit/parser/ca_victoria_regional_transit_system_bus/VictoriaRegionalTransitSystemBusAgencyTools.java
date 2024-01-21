@@ -16,7 +16,6 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 // https://www.bctransit.com/open-data
-// https://victoria.mapstrat.com/current/google_transit.zip
 public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTools {
 
 	public static void main(@NotNull String[] args) {
@@ -54,6 +53,11 @@ public class VictoriaRegionalTransitSystemBusAgencyTools extends DefaultAgencyTo
 	@Override
 	public boolean useRouteShortNameForRouteId() {
 		return false; // route ID used by GTFS-RT
+	}
+
+	@Override
+	public @Nullable String getRouteIdCleanupRegex() {
+		return "\\-[A-Z]+$";
 	}
 
 	@Override
